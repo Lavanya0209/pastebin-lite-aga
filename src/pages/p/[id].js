@@ -1,17 +1,25 @@
-export async function getServerSideProps({ params }) {
-  const res = await fetch(`http://localhost:3000/api/pastes?id=${params.id}`);
+export async function getServerSideProps(context) {
+  const { id } = context.params;
+
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/paste?id=${id}`);
+  const data = await res.json();
 
   if (!res.ok) {
     return { notFound: true };
   }
 
-  const text = await res.text();
-
-  return { props: { text } };
+  return {
+    props: {
+      text: data.text,
+    },
+  };
 }
 
 export default function Paste({ text }) {
   return (
-    <pre style={{ padding: 20 }}>{text}</pre>
+    <div style={{ padding: 20 }}>
+      <h1>Paste</h1>
+      <pre>{text}</pre>
+    </div>
   );
 }

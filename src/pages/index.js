@@ -5,7 +5,7 @@ export default function Home() {
   const [pasteId, setPasteId] = useState(null);
 
   async function createPaste() {
-    const res = await fetch("/api/pastes", {
+    const res = await fetch("/api/paste", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ text }),

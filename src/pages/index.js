@@ -4,7 +4,7 @@ export default function Home() {
   const [text, setText] = useState("");
   const [pasteId, setPasteId] = useState(null);
 
-  async function createPaste() {
+  const createPaste = async () => {
     const res = await fetch("/api/paste", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -13,21 +13,21 @@ export default function Home() {
 
     const data = await res.json();
     setPasteId(data.id);
-  }
+  };
 
   return (
-    <div style={{ padding: 20 }}>
+    <div style={{ padding: 30 }}>
       <h1>Pastebin Lite</h1>
 
       <textarea
         rows="6"
         cols="50"
+        placeholder="Enter text..."
         value={text}
         onChange={(e) => setText(e.target.value)}
       />
 
       <br /><br />
-
       <button onClick={createPaste}>Create Paste</button>
 
       {pasteId && (

@@ -1,12 +1,16 @@
-export async function getServerSideProps(context) {
-  const { id } = context.params;
+export async function getServerSideProps({ params, req }) {
+  const protocol = req.headers["x-forwarded-proto"] || "http";
+  const host = req.headers.host;
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/paste?id=${id}`);
-  const data = await res.json();
+  const res = await fetch(
+    `${protocol}://${host}/api/paste?id=${params.id}`
+  );
 
   if (!res.ok) {
     return { notFound: true };
   }
+
+  const data = await res.json();
 
   return {
     props: {
@@ -17,9 +21,8 @@ export async function getServerSideProps(context) {
 
 export default function Paste({ text }) {
   return (
-    <div style={{ padding: 20 }}>
-      <h1>Paste</h1>
-      <pre>{text}</pre>
-    </div>
+    <pre style={{ padding: 30, whiteSpace: "pre-wrap" }}>
+      {text}
+    </pre>
   );
 }

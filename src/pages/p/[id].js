@@ -3,7 +3,7 @@ export async function getServerSideProps({ params, req }) {
     ? "http://" + req.headers.host
     : "https://" + req.headers.host;
 
-  const res = await fetch(`${baseUrl}/api/pastes?id=${params.id}`);
+  const res = await fetch(`${baseUrl}/api/pastes/${params.id}`);
 
   if (!res.ok) {
     return { notFound: true };
